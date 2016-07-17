@@ -3,7 +3,7 @@
  * Leopard Hunting Router
  *
  * @version 0.1.0-alpha
- * @copyright ©Leopard
+ * @copyright Â©Leopard
  * @license http://creativecommons.org/licenses/by-nd/4.0/ CC BY-ND 4.0
  *
  * @author Julian Pfeil
@@ -68,6 +68,7 @@ class HuntingRouter
 	public static function putParamsIntoGet(array $URIArray)
 	{
 		$_GET = $URIArray;
+		$_REQUEST = array_merge ($_GET, $_POST, $_COOKIE);
 		
 		return;
 	}
