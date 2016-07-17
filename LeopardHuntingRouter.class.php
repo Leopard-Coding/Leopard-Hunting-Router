@@ -86,26 +86,28 @@ class HuntingRouter
 	public static function checkParameters($Parameters, $URIArray)
 	{
 		foreach ($Parameters as $Parameter => $Conditions) {
-			if (isset($Conditions['pattern'])) {
+			if (array_key_exists('pattern', $Conditions)) {
 				if(!preg_match($Conditions['pattern'], $URIArray[$Parameter])) {
 					return false;
 				}
 			} 
-			if ($Conditions['only'] == 'integer' || $Conditions['only'] == 'int') {
-				if(!ctype_digit($URIArray[$Parameter])) {
-					return false;
-				} 
-			} elseif ($Conditions['only'] == 'boolean' || $Conditions['only'] == 'bool') {
-			if($URIArray[$Parameter] != '1' && $URIArray[$Parameter] != '0' && $URIArray[$Parameter] != 'true' && $URIArray[$Parameter] != 'false') {
-					return false;
-				}
-			} elseif ($Conditions['only'] == 'alphanumeric') {
-				if(!preg_match('/^[A-Z0-9]+$/i', $URIArray[$Parameter])) {
-					return false;
-				}
-			}elseif ($Conditions['only'] == 'alpha') {
-				if(!preg_match('/^[A-Z]+$/i', $URIArray[$Parameter])) {
-					return false;
+			if (array_key_exists('only', $Conditions)) {
+				if ($Conditions['only'] == 'integer' || $Conditions['only'] == 'int') {
+					if(!ctype_digit($URIArray[$Parameter])) {
+						return false;
+					} 
+				} elseif ($Conditions['only'] == 'boolean' || $Conditions['only'] == 'bool') {
+					if($URIArray[$Parameter] != '1' && $URIArray[$Parameter] != '0' && $URIArray[$Parameter] != 'true' && $URIArray[$Parameter] != 'false') {
+						return false;
+					}
+				} elseif ($Conditions['only'] == 'alphanumeric') {
+					if(!preg_match('/^[A-Z0-9]+$/i', $URIArray[$Parameter])) {
+						return false;
+					}
+				}elseif ($Conditions['only'] == 'alpha') {
+					if(!preg_match('/^[A-Z]+$/i', $URIArray[$Parameter])) {
+						return false;
+					}
 				}
 			}
 			return true;
