@@ -2,7 +2,7 @@
 /**
  * Leopard Hunting Router
  *
- * @version 0.1.0-alpha
+ * @version 1.0.0
  * @copyright ©Leopard
  * @license http://creativecommons.org/licenses/by-nd/4.0/ CC BY-ND 4.0
  *
