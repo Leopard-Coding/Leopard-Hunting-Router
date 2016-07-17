@@ -96,7 +96,7 @@ class HuntingRouter
 					return false;
 				} 
 			} elseif ($Conditions['only'] == 'boolean' || $Conditions['only'] == 'bool') {
-			if($URIArray[$Parameter] != '1' && $URIArray[$Parameter] != '0') {
+			if($URIArray[$Parameter] != '1' && $URIArray[$Parameter] != '0' && $URIArray[$Parameter] != 'true' && $URIArray[$Parameter] != 'false') {
 					return false;
 				}
 			} elseif ($Conditions['only'] == 'alphanumeric') {
