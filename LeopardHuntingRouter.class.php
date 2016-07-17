@@ -94,7 +94,7 @@ class HuntingRouter
 			if ($Conditions['only'] == 'integer' || $Conditions['only'] == 'int') {
 				if(!ctype_digit($URIArray[$Parameter])) {
 					return false;
-				}
+				} 
 			} elseif ($Conditions['only'] == 'boolean' || $Conditions['only'] == 'bool') {
 			if($URIArray[$Parameter] != '1' && $URIArray[$Parameter] != '0') {
 					return false;
