@@ -68,7 +68,7 @@ class HuntingRouter
 	public static function putParamsIntoGet(array $URIArray)
 	{
 		$_GET = $URIArray;
-		$_REQUEST = array_merge($_GET,$_POST,$_COOKIE);
+		$_REQUEST = array_merge ($_GET, $_POST, $_COOKIE);
 		
 		return;
 	}
