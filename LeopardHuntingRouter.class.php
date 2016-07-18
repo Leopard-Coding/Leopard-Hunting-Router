@@ -48,7 +48,7 @@ class HuntingRouter
 		$URIArray = [];
 		foreach(explode('/', substr($URI, 1)) as $ParamClause) {
 			if (strpos($ParamClause, $Delimiter)) {
-				preg_match('/([A-Z]+)-(.*)/i', $ParamClause, $Matches);
+				preg_match('/([A-Z]+)'.preg_quote($Delimiter).'(.*)/i', $ParamClause, $Matches);
 				$ParamName = $Matches[1];
 				$ParamValue = $Matches[2];
 				
