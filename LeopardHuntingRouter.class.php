@@ -43,13 +43,16 @@ class HuntingRouter
 	 *
 	 * @return array $URIArray URI as array
 	 */ 
-	public static function convertURIIntoArray($URI)
+	public static function convertURIIntoArray($URI, $Delimiter = '=')
 	{
 		$URIArray = [];
 		foreach(explode('/', substr($URI, 1)) as $ParamClause) {
-			if (strpos($ParamClause, '=')) {
-				$ParamClause = explode('=', $ParamClause);
-				$URIArray[$ParamClause[0]] = $ParamClause[1];
+			if (strpos($ParamClause, $Delimiter)) {
+				preg_match('/([A-Z]+)-(.*)/i', $ParamClause, $Matches);
+				$ParamName = $Matches[1];
+				$ParamValue = $Matches[2];
+				
+				$URIArray[$ParamName] = $ParamValue;
 			}
 		}
 		
@@ -93,22 +96,34 @@ class HuntingRouter
 					}
 				} 
 				if (array_key_exists('only', $Conditions)) {
-					if ($Conditions['only'] == 'integer' || $Conditions['only'] == 'int') {
-						if(!ctype_digit($URIArray[$Parameter])) {
-							return false;
-						} 
-					} elseif ($Conditions['only'] == 'boolean' || $Conditions['only'] == 'bool') {
-						if($URIArray[$Parameter] != '1' && $URIArray[$Parameter] != '0' && $URIArray[$Parameter] != 'true' && $URIArray[$Parameter] != 'false') {
-							return false;
-						}
-					} elseif ($Conditions['only'] == 'alphanumeric') {
-						if(!preg_match('/^[A-Z0-9]+$/i', $URIArray[$Parameter])) {
-							return false;
-						}
-					}elseif ($Conditions['only'] == 'alpha') {
-						if(!preg_match('/^[A-Z]+$/i', $URIArray[$Parameter])) {
-							return false;
-						}
+					switch ($Conditions['only']) {
+						case 'integer':
+						case 'int':
+							if(!ctype_digit($URIArray[$Parameter])) {
+								return false;
+							}
+							break;
+						case 'boolean':
+						case 'bool':
+							if($URIArray[$Parameter] != '1' && $URIArray[$Parameter] != '0' && $URIArray[$Parameter] != 'true' && $URIArray[$Parameter] != 'false') {
+								return false;
+							}
+							break;
+						case 'alphanumeric':
+							if(!preg_match('/^[A-Z0-9]+$/i', $URIArray[$Parameter])) {
+								return false;
+							}
+							break;
+						case 'alpha':
+							if(!preg_match('/^[A-Z]+$/i', $URIArray[$Parameter])) {
+								return false;
+							}
+							break;
+						case 'float':
+							if(!is_float($URIArray[$Parameter])) {
+								return false;
+							}
+							break;
 					}
 				}
 			}
@@ -127,10 +142,10 @@ class HuntingRouter
 	 *
 	 * @return boolean true on success, false on failure
 	 */ 
-	public static function startRouting(array $Parameters = [])
+	public static function startRouting(array $Parameters = [], $Delimiter = '=')
 	{
 		$URI = self::getCurrentUri();
-		$URIArray = self::convertURIIntoArray($URI);
+		$URIArray = self::convertURIIntoArray($URI, $Delimiter);
 		if (count($Parameters) > 0) {
 			if (!self::checkParameters($Parameters, $URIArray)) {
 				return false;
