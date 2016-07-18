@@ -1,0 +1,2 @@
+# About Leopard Hunting Router
+The Leopard Hunting Router makes it possible to use urls like _http://localhost/page=home_ instead of _http://localhost/index.php?page=home_. Additionally you can check the parameters with any regular expression you want or check if they are an integer, boolean, alpha or alphanumeric string.
